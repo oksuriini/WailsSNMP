@@ -1,22 +1,6 @@
 import { useState } from "react";
-import "./App.css";
-import Title from "./components/Title";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainPage from "./components/MainPage";
-import SwitchList from "./components/SwitchList";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainPage />,
-  },
-  {
-    path: "switch",
-    element: <SwitchList />,
-  },
-]);
-
-function App() {
+function SwitchList() {
   const [fields, setFields] = useState([{ name: "", ip: "", community: "" }]);
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
@@ -59,13 +43,48 @@ function App() {
   }
 
   function handleLoad() {}
-
   return (
     <div id="App">
-      <Title />
-      <RouterProvider router={router} />
+      <p>
+        Type in switch name, ip address and community string and then press
+        submit
+      </p>
+      <button onClick={addSwitch}>Add Switch</button>
+      <form onSubmit={handleSubmit}>
+        <label>Name</label>
+        <label>IP</label>
+        <label>Community</label>
+        <div>
+          <input
+            name="name"
+            placeholder="Switch Name"
+            onChange={(event) => setName(event.target.value)}
+          />
+          <input
+            name="ip"
+            placeholder="Switch IP"
+            onChange={(event) => setIp(event.target.value)}
+          />
+          <input
+            name="community"
+            placeholder="Community String"
+            onChange={(event) => setCommunity(event.target.value)}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <button onClick={handleSave}>Save</button>
+      <input id="upload" type="file" />
+      {fields.map((input, index) => {
+        return (
+          <div>
+            <p>{fields[index].name}</p>
+            <button onClick={() => removeEntry(index)}>X</button>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-export default App;
+export default SwitchList;
